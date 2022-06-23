@@ -992,7 +992,8 @@ class TaylorFOWeightPruner(BasicPruner):
         buffer.append(torch.zeros_like(weight_tensor))
 
         def collect_taylor(grad: Tensor):
-            if buffer[0] < self.training_batches:
+            if buffer[0] < self.training_batches:            
+                buffer[1] = buffer[1].to(weight_tensor.device)
                 buffer[1] += self._calculate_taylor_expansion(weight_tensor, grad)
                 buffer[0] += 1
         return collect_taylor

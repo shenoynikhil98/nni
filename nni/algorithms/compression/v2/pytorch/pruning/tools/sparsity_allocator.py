@@ -27,7 +27,7 @@ class NormalSparsityAllocator(SparsityAllocator):
             assert name in metrics, 'Metric of {} is not calculated.'.format(name)
 
             # We assume the metric value are all positive right now.
-            metric = metrics[name]
+            metric = metrics[name].to(wrapper.weight_mask.device)
             if self.continuous_mask:
                 metric *= self._compress_mask(wrapper.weight_mask)  # type: ignore
             prune_num = int(sparsity_rate * metric.numel())
